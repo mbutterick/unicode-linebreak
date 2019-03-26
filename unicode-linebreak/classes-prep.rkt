@@ -16,12 +16,8 @@
                  [(list left) (list left left)])))
         (list left right (string->symbol tag))))
     (strip-context
-     (with-syntax ([(LINE ...) lines])
+     (with-syntax ([((LVAL RVAL RES) ...) lines])
        #'(module _ racket/base
-           'LINE ...)))))
-
-(provide (rename-out [mb #%module-begin]))
-
-(define-syntax-rule (mb . lines)
-  #`(#%module-begin
-     . lines))
+           (provide f)
+           (define (f x)
+             (cond [(<= LVAL x RVAL) 'RES] ...)))))))
